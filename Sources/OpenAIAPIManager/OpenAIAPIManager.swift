@@ -15,7 +15,14 @@ final public class OpenAIAPIManager {
         self.systemMessage.setValue("assistant", forKey: "role")
         self.systemMessage.setValue("You are a helpful assistant.", forKey: "content")
     }
-    
+
+    public func precondition(_ string: String) {
+        let message = NSMutableDictionary()
+        message.setValue("user", forKey: "role")
+        message.setValue(string, forKey: "content")
+        historyList.append(message)
+    }
+
     // MARK: - Public Functions
     
     /// Retrieves a list of OpenAI models from the API.
@@ -735,7 +742,7 @@ final public class OpenAIAPIManager {
         userMessage.setValue(userText, forKey: "content")
         let assistantMessage = NSMutableDictionary()
         assistantMessage.setValue("assistant", forKey: "role")
-        assistantMessage.setValue(responseText, forKey: "content")
+        assistantMessage.setValue(responseText.joined(separator: "\n"), forKey: "content")
         self.historyList.append(userMessage)
         self.historyList.append(assistantMessage)
     }
